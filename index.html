@@ -729,8 +729,8 @@
     
     <!-- 배경음악(BGM) 제어 버튼 & 숨김 IFrame -->
     <button class="bgm-btn" id="bgmBtn" aria-label="배경음악 재생/정지" onclick="toggleBgm()">🎵</button>
-    <div id="youtube-player-hidden"></div>
-
+    <audio id="audioPlayer" loop preload="auto" src="./images/bgm.mp3"></audio>
+    
     <!-- 1. Header / Cover -->
     <header class="cover-section">
       <div class="cover-img-wrapper">
@@ -1021,10 +1021,7 @@
 
   <!-- 복사 안내 토스트 -->
   <div class="toast" id="toast">계좌번호가 복사되었습니다.</div>
-
-  <!-- YouTube IFrame API -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-
+  
   <script>
     // 1. D-Day 카운트다운 (2026년 12월 19일 11:30:00 KST)
     const weddingDate = new Date("2026-12-19T11:30:00+09:00").getTime();
@@ -1119,50 +1116,45 @@
         toast.className = toast.className.replace("show", "");
       }, 2500);
     }
-
-    // 5. YouTube BGM 플레이어 제어 (eELiY6kvHXQ)
-    let player;
+    
+    // 5. 모바일 최적화 BGM 제어
+    const audio = document.getElementById("audioPlayer");
+    const bgmBtn = document.getElementById("bgmBtn");
     let isPlaying = false;
 
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('youtube-player-hidden', {
-        height: '1',
-        width: '1',
-        videoId: 'eELiY6kvHXQ',
-        playerVars: {
-          autoplay: 0,
-          loop: 1,
-          playlist: 'eELiY6kvHXQ',
-          controls: 0,
-          showinfo: 0
-        },
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-
-    function onPlayerStateChange(event) {
-      const bgmBtn = document.getElementById('bgmBtn');
-      if (event.data === YT.PlayerState.PLAYING) {
-        isPlaying = true;
-        bgmBtn.classList.add('playing');
-        bgmBtn.innerText = '🎶';
-      } else {
-        isPlaying = false;
-        bgmBtn.classList.remove('playing');
-        bgmBtn.innerText = '🎵';
-      }
-    }
-
     function toggleBgm() {
-      if (!player || typeof player.playVideo !== 'function') return;
-      if (isPlaying) {
-        player.pauseVideo();
+      if (audio.paused) {
+        audio.play().then(() => {
+          isPlaying = true;
+          bgmBtn.classList.add("playing");
+          bgmBtn.innerText = "🎶";
+        }).catch((err) => {
+          console.log("재생 차단:", err);
+        });
       } else {
-        player.playVideo();
+        audio.pause();
+        isPlaying = false;
+        bgmBtn.classList.remove("playing");
+        bgmBtn.innerText = "🎵";
       }
     }
+
+    // 모바일 브라우저 대응: 화면 어디든 첫 터치/클릭 시 자연스럽게 BGM 시작
+    function initAudioOnFirstTouch() {
+      audio.play().then(() => {
+        isPlaying = true;
+        bgmBtn.classList.add("playing");
+        bgmBtn.innerText = "🎶";
+        document.removeEventListener("click", initAudioOnFirstTouch);
+        document.removeEventListener("touchstart", initAudioOnFirstTouch);
+      }).catch(() => {});
+    }
+
+    document.addEventListener("click", initAudioOnFirstTouch, { once: true });
+    document.addEventListener("touchstart", initAudioOnFirstTouch, { once: true });
+  </script>
+</body>
+</html>
   </script>
 </body>
 </html>

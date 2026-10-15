@@ -400,20 +400,38 @@
       background: var(--accent-soft);
     }
 
-    /* 5. 갤러리 */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 12px;
+    /* 5. 갤러리 (가로 스크롤 캐러셀) */
+    .gallery-scroll-container {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: flex;
+      gap: 12px;
+      padding: 12px 24px 20px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+
+    .gallery-scroll-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, In-App Browser */
     }
 
     .gallery-item {
-      aspect-ratio: 1;
+      flex: 0 0 75%; /* Ifoto imwe ifata 75% by'ubugari bwa telefone */
+      aspect-ratio: 3 / 4;
+      border-radius: 12px;
       overflow: hidden;
-      border-radius: 8px;
+      scroll-snap-align: center;
       cursor: pointer;
       background-color: #f2ede4;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border-color);
+      transition: transform 0.2s ease;
+    }
+
+    .gallery-item:active {
+      transform: scale(0.98);
     }
 
     .gallery-item img {
@@ -421,37 +439,14 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.3s ease;
+      pointer-events: none;
     }
 
-    .gallery-item:active img {
-      transform: scale(1.03);
-    }
-
-     .gallery-item.is-hidden {
-      display: none;
-    }
-
-    .btn-gallery-more {
-      width: 100%;
-      margin-top: 14px;
-      padding: 12px 0;
-      border: 1px solid var(--border-color);
-      background-color: var(--bg-card);
+    .gallery-scroll-hint {
+      font-size: 0.8rem;
       color: var(--text-muted);
-      font-family: var(--font-serif-kr);
-      font-size: 0.88rem;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: background-color 0.2s;
-    }
-
-    .btn-gallery-more:active {
-      background-color: var(--accent-soft);
+      margin-top: 4px;
+      letter-spacing: 0.05em;
     }
     
     /* 모달 Lightbox */
@@ -895,13 +890,12 @@
       </div>
     </section>
 
-    <!-- 5. 갤러리 -->
+    <!-- 5. 갤러리 (가로 스크롤형) -->
     <section>
       <span class="section-en-title">Gallery</span>
       <h2 class="section-title">우리의 행복한 순간들</h2>
       
-      <div class="gallery-grid" id="galleryGrid">
-        <!-- 기본 노출 6장 -->
+     <div class="gallery-scroll-container">
         <div class="gallery-item" onclick="openLightbox('./images/photo1.jpg')">
           <img src="./images/photo1.jpg" alt="웨딩 사진 1" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 1</text></svg>'">
         </div>
@@ -920,27 +914,19 @@
         <div class="gallery-item" onclick="openLightbox('./images/photo6.jpg')">
           <img src="./images/photo6.jpg" alt="웨딩 사진 6" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 6</text></svg>'">
         </div>
-
-        <!-- 더보기 클릭 시 노출될 4장 (is-hidden 적용) -->
-        <div class="gallery-item is-hidden" onclick="openLightbox('./images/photo7.jpg')">
+        <div class="gallery-item" onclick="openLightbox('./images/photo7.jpg')">
           <img src="./images/photo7.jpg" alt="웨딩 사진 7" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 7</text></svg>'">
         </div>
-        <div class="gallery-item is-hidden" onclick="openLightbox('./images/photo8.jpg')">
+        <div class="gallery-item" onclick="openLightbox('./images/photo8.jpg')">
           <img src="./images/photo8.jpg" alt="웨딩 사진 8" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 8</text></svg>'">
         </div>
-        <div class="gallery-item is-hidden" onclick="openLightbox('./images/photo9.jpg')">
+        <div class="gallery-item" onclick="openLightbox('./images/photo9.jpg')">
           <img src="./images/photo9.jpg" alt="웨딩 사진 9" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 9</text></svg>'">
         </div>
-        <div class="gallery-item is-hidden" onclick="openLightbox('./images/photo10.jpg')">
+        <div class="gallery-item" onclick="openLightbox('./images/photo10.jpg')">
           <img src="./images/photo10.jpg" alt="웨딩 사진 10" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 10</text></svg>'">
         </div>
       </div>
-
-      <!-- 사진 더보기 버튼 -->
-      <button type="button" class="btn-gallery-more" id="btnGalleryMore" onclick="showMorePhotos()">
-        <span>사진 더보기</span>
-        <span style="font-size: 0.75rem;">▼</span>
-      </button>
     </section>
 
     <!-- 6. 오시는 길 -->
@@ -1114,7 +1100,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // 2. 갤러리 라이트박스 팝업
+    // 2. 갤러리 라이트박스 팝업 (Ibi biguma uko byari biri)
     function openLightbox(src) {
       const modal = document.getElementById('lightbox');
       const img = document.getElementById('lightbox-img');

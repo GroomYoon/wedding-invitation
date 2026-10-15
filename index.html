@@ -428,6 +428,32 @@
       transform: scale(1.03);
     }
 
+     .gallery-item.is-hidden {
+      display: none;
+    }
+
+    .btn-gallery-more {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px 0;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      color: var(--text-muted);
+      font-family: var(--font-serif-kr);
+      font-size: 0.88rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-gallery-more:active {
+      background-color: var(--accent-soft);
+    }
+    
     /* 모달 Lightbox */
     .lightbox-modal {
       display: none;
@@ -874,7 +900,8 @@
       <span class="section-en-title">Gallery</span>
       <h2 class="section-title">우리의 소중한 순간들</h2>
       
-      <div class="gallery-grid">
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- 기본 노출 6장 -->
         <div class="gallery-item" onclick="openLightbox('./images/photo1.jpg')">
           <img src="./images/photo1.jpg" alt="웨딩 사진 1" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 1</text></svg>'">
         </div>
@@ -887,7 +914,33 @@
         <div class="gallery-item" onclick="openLightbox('./images/photo4.jpg')">
           <img src="./images/photo4.jpg" alt="웨딩 사진 4" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 4</text></svg>'">
         </div>
+        <div class="gallery-item" onclick="openLightbox('./images/photo5.jpg')">
+          <img src="./images/photo5.jpg" alt="웨딩 사진 5" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 5</text></svg>'">
+        </div>
+        <div class="gallery-item" onclick="openLightbox('./images/photo6.jpg')">
+          <img src="./images/photo6.jpg" alt="웨딩 사진 6" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 6</text></svg>'">
+        </div>
+
+        <!-- 더보기 클릭 시 노출될 4장 (is-hidden 적용) -->
+        <div class="gallery-item is-hidden" onclick="openLightbox('./images/photo7.jpg')">
+          <img src="./images/photo7.jpg" alt="웨딩 사진 7" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 7</text></svg>'">
+        </div>
+        <div class="gallery-item is-hidden" onclick="openLightbox('./images/photo8.jpg')">
+          <img src="./images/photo8.jpg" alt="웨딩 사진 8" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 8</text></svg>'">
+        </div>
+        <div class="gallery-item is-hidden" onclick="openLightbox('./images/photo9.jpg')">
+          <img src="./images/photo9.jpg" alt="웨딩 사진 9" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 9</text></svg>'">
+        </div>
+        <div class="gallery-item is-hidden" onclick="openLightbox('./images/photo10.jpg')">
+          <img src="./images/photo10.jpg" alt="웨딩 사진 10" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' fill=\'%23f2ede4\'><text x=\'50%\' y=\'50%\' font-size=\'13\' fill=\'%23888\' text-anchor=\'middle\' dominant-baseline=\'middle\'>Photo 10</text></svg>'">
+        </div>
       </div>
+
+      <!-- 사진 더보기 버튼 -->
+      <button type="button" class="btn-gallery-more" id="btnGalleryMore" onclick="showMorePhotos()">
+        <span>사진 더보기 (4장)</span>
+        <span style="font-size: 0.75rem;">▼</span>
+      </button>
     </section>
 
     <!-- 6. 오시는 길 -->
@@ -1082,6 +1135,13 @@
       parent.classList.toggle('active');
     }
 
+    function showMorePhotos() {
+      const hiddenPhotos = document.querySelectorAll('#galleryGrid .gallery-item.is-hidden');
+      hiddenPhotos.forEach(photo => photo.classList.remove('is-hidden'));
+      const btn = document.getElementById('btnGalleryMore');
+      if (btn) btn.style.display = 'none'; // 다 펼쳐지면 버튼 숨김
+    }
+    
     // 4. 클립보드 복사 & 토스트
     function copyAccount(text) {
       if (text.includes('[어머님')) {

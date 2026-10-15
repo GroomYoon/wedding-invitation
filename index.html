@@ -135,7 +135,7 @@
       opacity: 0.6;
     }
 
-    /* 1. Header / Cover (중앙 정렬) */
+    /* 1. Header / Cover (중앙 정렬 & 타이포 페이드업 적용) */
     .cover-section {
       padding: 0 0 40px 0;
       overflow: hidden;
@@ -170,6 +170,8 @@
       text-transform: uppercase;
       margin-bottom: 12px;
       text-align: center;
+      /* 1단계 페이드업: 웨딩 인비테이션 태그 */
+      animation: typoFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
     }
 
     .cover-names {
@@ -179,6 +181,8 @@
       letter-spacing: 0.05em;
       margin-bottom: 6px;
       text-align: center;
+      /* 2단계 페이드업: 영문 신랑&신부 이름 */
+      animation: typoFadeUp 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
     }
 
     .cover-names span {
@@ -194,6 +198,8 @@
       margin-bottom: 22px;
       letter-spacing: 0.15em;
       text-align: center;
+      /* 3단계 페이드업: 한글 이름 */
+      animation: typoFadeUp 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
     }
 
     .cover-date-venue {
@@ -206,8 +212,24 @@
       letter-spacing: 0.04em;
       text-align: center;
       margin: 0 auto;
+      /* 4단계 페이드업: 날짜 및 식장 박스 */
+      animation: typoFadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
     }
 
+    /* 부드러운 타이포 페이드업 키프레임 */
+    @keyframes typoFadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(22px);
+        filter: blur(4px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+    
     /* 2. 초대의 글 */
     .invitation-section {
       padding: 42px 24px 50px;
